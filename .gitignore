@@ -27,6 +27,7 @@ dist/
 
 .DS_Store
 .env
+mineru.json
 
 bad_words/
 bak/

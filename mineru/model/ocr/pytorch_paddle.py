@@ -395,8 +395,20 @@ class PytorchPaddleOCR(TextSystem):
         return filter_boxes, filter_rec_res
 
 if __name__ == '__main__':
+    import sys
+
+    if len(sys.argv) != 2:
+        raise SystemExit(
+            "Usage: python -m mineru.model.ocr.pytorch_paddle <image_path>"
+        )
+    image_path = Path(sys.argv[1]).expanduser()
+    if not image_path.is_file():
+        raise SystemExit(f"Image not found: {image_path}")
+
     pytorch_paddle_ocr = PytorchPaddleOCR()
-    img = cv2.imread("/Users/myhloli/Downloads/screenshot-20250326-194348.png")
+    img = cv2.imread(str(image_path))
+    if img is None:
+        raise SystemExit(f"Failed to read image: {image_path}")
     dt_boxes, rec_res = pytorch_paddle_ocr(img)
     ocr_res = []
     if not dt_boxes and not rec_res:

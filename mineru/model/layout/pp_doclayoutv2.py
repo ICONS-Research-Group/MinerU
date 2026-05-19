@@ -1529,8 +1529,6 @@ if __name__ == "__main__":
                 os.path.join(auto_download_and_get_model_root_path(ModelPath.pp_doclayout_v2), ModelPath.pp_doclayout_v2)
             )
 
-    args.image = "/Users/myhloli/pdf/png/index.png"
-
     model = PPDocLayoutV2LayoutModel(
         weight=args.model,
         device=args.device,

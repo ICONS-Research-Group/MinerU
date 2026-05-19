@@ -806,14 +806,22 @@ async def aio_do_parse(
 
 
 if __name__ == "__main__":
-    # pdf_path = "../../demo/pdfs/demo3.pdf"
-    pdf_path = "C:/Users/zhaoxiaomeng/Downloads/4546d0e2-ba60-40a5-a17e-b68555cec741.pdf"
+    pdf_path = Path(__file__).resolve().parents[2] / "demo" / "pdfs" / "demo3.pdf"
+    if not pdf_path.is_file():
+        raise SystemExit(
+            f"Sample PDF not found: {pdf_path}. "
+            "Add a test PDF under demo/pdfs/ or edit pdf_path in this block."
+        )
 
     try:
-       do_parse("./output", [Path(pdf_path).stem], [read_fn(Path(pdf_path))],["ch"],
-                end_page_id=10,
-                backend='vlm-huggingface'
-                # backend = 'pipeline'
-                )
+        do_parse(
+            "./output",
+            [pdf_path.stem],
+            [read_fn(pdf_path)],
+            ["ch"],
+            end_page_id=10,
+            backend="vlm-huggingface",
+            # backend="pipeline",
+        )
     except Exception as e:
         logger.exception(e)

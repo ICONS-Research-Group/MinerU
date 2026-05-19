@@ -1,7 +1,9 @@
 # Copyright (c) Opendatalab. All rights reserved.
 import os
 import re
+import sys
 from io import BytesIO
+from pathlib import Path
 
 import numpy as np
 import pypdfium2 as pdfium
@@ -558,6 +560,13 @@ def detect_invalid_chars_pdfminer_fallback(sample_pdf_bytes: bytes) -> bool:
 
 
 if __name__ == "__main__":
-    with open("/Users/myhloli/pdf/luanma2x10.pdf", "rb") as f:
+    sample_pdf = Path(__file__).resolve().parents[2] / "demo" / "pdfs" / "demo1.pdf"
+    if not sample_pdf.is_file():
+        raise SystemExit(
+            f"Sample PDF not found: {sample_pdf}. "
+            "Add a test PDF under demo/pdfs/ or pass a path as the first argument."
+        )
+    pdf_path = Path(sys.argv[1]).expanduser() if len(sys.argv) > 1 else sample_pdf
+    with open(pdf_path, "rb") as f:
         p_bytes = f.read()
         logger.info(f"PDF classify result: {classify(p_bytes)}")
